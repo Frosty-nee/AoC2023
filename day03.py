@@ -1,6 +1,6 @@
 import utils
 import string
-
+import math
 
 class number:
     value = 0
@@ -23,6 +23,7 @@ class symbol:
     adjacent_coordinates = None
     def __init__(self, coordinates):
         self.row, self.column = coordinates
+        self.value = processed_input[self.row][self.column]
         self.adjacent_coordinates = set()
         for y in range(self.row-1, self.row +2):
             for x in range(self.column-1, self.column +2):
@@ -77,7 +78,20 @@ if __name__ == "__main__":
     processed_input = [[int(char) if char in string.digits else char if (char in string.punctuation and char != '.') else None for char in line] for line in raw_input]
     total = 0
     symbols = find_symbols()
-    for number in find_numbers():
+    numbers = find_numbers()
+    for number in numbers:
         if is_number_adjacent_to_symbol(number) :
             total+=number.value
+
+    gear_ratio_total = 0
+    for symbol in symbols:
+        if symbol.value == '*':
+            adjacent_numbers = set()
+            for number in numbers:
+                if len(number.coordinates.intersection(symbol.adjacent_coordinates)) > 0:
+                    adjacent_numbers.add(number)
+            if len(adjacent_numbers) == 2:
+                gear_ratio_total += adjacent_numbers.pop().value * adjacent_numbers.pop().value
+
     print(total)
+    print(gear_ratio_total)
