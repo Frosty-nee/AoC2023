@@ -9,7 +9,7 @@ class number:
         self.coordinates = set()
         value = 0
         for x in range(start, end+1):
-            if processed_input[line][x]:
+            if type(processed_input[line][x]) == int:
                 value = (value*10)+processed_input[line][x]
             self.coordinates.add((x, line))
         self.value = value
@@ -51,14 +51,14 @@ def find_numbers():
 def find_number_starts(line):
     starts = []
     for char in range(len(line)):
-        if line[char] and type(line[char]) == int and (line[char-1] == None or type(line[char-1]) != int):
+        if line[char] != None and type(line[char]) == int and (line[char-1] == None or type(line[char-1]) != int):
             starts.append(char)
     return starts
 
 def find_number_ends(line):
     ends = []
     for char in range(len(line)-1, -1, -1):
-        if line[char] and type(line[char]) == int and (line[char+1] == None or type(line[char+1]) != int):
+        if char >= len(line)-1 or (line[char] != None and type(line[char]) == int and (line[char+1] == None or type(line[char+1]) == str)):
             ends.append(char)
     ends.reverse()
     return ends
@@ -72,7 +72,7 @@ def is_number_adjacent_to_symbol(number):
 
 
 if __name__ == "__main__":
-    raw_input = utils.process_raw_input("day3example.input")
+    raw_input = utils.process_raw_input("day3.input")
 
     processed_input = [[int(char) if char in string.digits else char if (char in string.punctuation and char != '.') else None for char in line] for line in raw_input]
     total = 0
