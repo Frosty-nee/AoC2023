@@ -1,4 +1,5 @@
 import utils
+from datetime import datetime
 
 games = utils.process_raw_input("day2.input")
 def solve(games, part2=False):
@@ -21,6 +22,7 @@ def solve(games, part2=False):
         else:
              summation += id
     return summation
-
+start = datetime.utcnow()
 print(solve(games))
+start2 = datetime.utcnow()
 print(solve(games, True))
